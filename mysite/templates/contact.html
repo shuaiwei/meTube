@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-6">
+
+        <form class="navbar-form" action="/searchContact/" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="add contact..." id="query" name="query" value="">
+                <div class="input-group-btn">
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            
+        </form>
+        {% if ifSearch %}
+            {% if searchedContact%}
+            <!-- div should be put internal, in comment, percent sign can not come up-->
+            <div class="alert alert-warning col-md-10 col-md-offfset-1"> 
+                <ul>
+                    <li>The user {{searchedContact}} was found successfully!</li>
+                </ul>
+            </div>
+
+            <form class="navbar-form" action="/addContact/" method="post">
+                <input class="form-control" type="hidden" name="searchedContact" value={{searchedContact}}>
+                <button type="submit" id="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>add Contact</span>
+                </button>
+            </form>
+            {% else %}
+            <div class="alert alert-warning col-md-10 col-md-offset-1"> 
+                <ul>
+                    <li>The searched user was not found.</li>
+                </ul>
+            </div>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+    {%if ifAdd%}
+        {% if addedUser %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+            <div class="col-md-4 col-md-offset-4 alert alert-warning"> 
+                <ul>
+                    <li>Add user {{addedUser}} successfully!</li>
+                </ul>
+            </div>
+        {% else%}
+            <div class="col-md-4 col-md-offset-4 alert alert-warning"> 
+                <ul>
+                    <li>The user already in your list!</li>
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if contactlist %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+    <div class="col-md-11">
+      My Contact List:
+    </div>
+
+    <div class="col-md-8">
+
+        <form class="navbar-form" action="/sendAndDeleteContact/" method="post">
+
+            <div class="col-md-3">
+            <select data-live-search="true" class="btn-primary form-control input-small"  name ="contact">
+                {% for contact in contactlist %}
+                  <option value="{{contact}}">{{contact}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-success" name="send" value="send">Send message</button>
+              <button type="submit" class="btn btn-danger" name="delete" value="delete">delete</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+{% endblock %}

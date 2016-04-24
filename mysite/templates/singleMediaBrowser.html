@@ -1,0 +1,585 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+  <br>
+  <div class="col-md-8">
+    {% ifequal type 'image' %}
+    {% if media %}
+    <div class="col-md-offset-2">
+      <ol class="">
+           <li class="">
+              <img class="img-responsive" src="{{media}}"> 
+              <!-- must not have '/' here -->
+          </li>
+      </ol>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      {{keyword}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      score:{{aveScore}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      view times:{{numOfViewer}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      uploader:{{uploader}}
+    </div>
+    {% if not ifBlock %}
+
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/download/">
+        <button class="btn btn-success start">
+            <i class="glyphicon glyphicon-download"></i>
+          <span>Download</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+          <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+    {% if not ifEdit and username%}
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/subscribe/">
+        <button class="btn btn-primary start">
+            <i class="glyphicon glyphicon-ok"></i>
+          <span>Subscribe</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+          <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+    {% if subscribeSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{subscribeSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+    {% if favoriteList%}
+    <div class ="row col-md-6 col-md-offset-4 form-group">
+     <form class="navbar-form" action="/saveMediaToFavoriteList/" method="post">
+
+            <div class="col-md-6">
+            <select data-live-search="true" class="btn-danger form-control input-small"  name ="listName">
+                {% for favorite in favoriteList %}
+                  <option value="{{favorite}}">{{favorite}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-danger" name="view" value="view">save to favorite list</button>
+            </div>
+            <input type="hidden" name="path" value={{media}}><br>
+
+        </form>
+    </div>
+    {% endif %}
+      {% if saveToFavoriteSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{saveToFavoriteSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+
+
+    {% endif %}
+
+    {% endif %}
+
+    {% if playlistDelete %}
+
+      <form class="form-imageDelete col-md-8 col-md-offset-4" action="/playlistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    {% endif %}
+
+    {% if favoritelistDelete %}
+
+      <form class="form-imageDelete col-md-8 col-md-offset-4" action="/favoritelistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <input type="hidden" name="listName" value={{listName}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    {% endif %}
+
+    {% if username and ifEdit%}
+    <form class="form-imageDelete col-md-8 col-md-offset-4" action="/mediaDelete/" method="post"> 
+        <input type="hidden" name="image" value={{media}}><br>
+        <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+            <i class="glyphicon glyphicon-trash"></i>
+            <span>Delete</span>
+        </button>
+    </form>
+    {% endif %}
+
+    {% endif %}  
+    {% endifequal %}
+
+    <!-- should be put before div class -->
+    {% ifequal type 'video' %}
+    {% if media %}
+    <div class="col-md-offset-2">
+ 
+      <video controls>
+          <source src="{{media}}" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      {{keyword}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      score:{{aveScore}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      view times:{{numOfViewer}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      uploader:{{uploader}}
+    </div>
+    {% if not ifBlock %}
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/download/">
+        <button class="btn btn-success start">
+            <i class="glyphicon glyphicon-download"></i>
+          <span>Download</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+            <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+    {% if not ifEdit and username%}
+
+     <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/subscribe/">
+        <button class="btn btn-primary start">
+            <i class="glyphicon glyphicon-ok"></i>
+          <span>Subscribe</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+          <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+    {% if saveToFavoriteSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{saveToFavoriteSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+        <div class ="row col-md-6 col-md-offset-4 form-group">
+        {% if favoriteList %}
+        <form class="navbar-form" action="/saveMediaToFavoriteList/" method="post">
+
+            <div class="col-md-6">
+            <select data-live-search="true" class="btn-danger form-control input-small"  name ="listName">
+                {% for favorite in favoriteList %}
+                  <option value="{{favorite}}">{{favorite}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-danger" name="view" value="view">save to favorite list</button>
+            </div>
+            <input type="hidden" name="path" value={{media}}><br>
+
+        </form>
+        {% endif %}
+    </div>
+  
+      {% if subscribeSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{subscribeSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+
+    {% endif %}
+    {% endif %}
+
+    {% if playlistDelete %}
+
+      <form class="form-imageDelete col-md-8 col-md-offset-4" action="/playlistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    {% endif %}
+
+     {% if favoritelistDelete %}
+
+     <form class="form-imageDelete col-md-8 col-md-offset-4" action="/favoritelistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <input type="hidden" name="listName" value={{listName}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    {% endif %}
+
+    {% if username and ifEdit%}
+    <form class="form-videoDelete col-md-8 col-md-offset-4" action="/mediaDelete/" method="post"> 
+        <input type="hidden" name="video" value={{media}}><br>
+        <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+            <i class="glyphicon glyphicon-trash"></i>
+            <span>Delete</span>
+        </button>
+    </form>
+    {% endif %}
+    {% endif %}
+    {% endifequal %}
+
+    {% ifequal type 'audio' %}
+    {% if media %}
+    <div class="row col-md-offset-4"> 
+      <audio controls>
+          <source src="{{media}}" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      {{keyword}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      score:{{aveScore}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      view times:{{numOfViewer}}
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+      uploader:{{uploader}}
+    </div>
+
+    {% if not ifBlock %}
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/download/">
+        <button class="btn btn-success start">
+            <i class="glyphicon glyphicon-download"></i>
+          <span>Download</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+          <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+
+    {% if not ifEdit and username%}
+
+     <div class ="row col-md-6 col-md-offset-5 form-group">
+      <form method="post" action="/subscribe/">
+        <button class="btn btn-primary start">
+            <i class="glyphicon glyphicon-ok"></i>
+          <span>Subscribe</span>
+        </button>
+        <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+          <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+      </form>
+    </div>
+    {% if subscribeSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{subscribeSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+        <div class ="row col-md-6 col-md-offset-4 form-group">
+
+      {% if favoriteList %}
+
+        <form class="navbar-form" action="/saveMediaToFavoriteList/" method="post">
+
+            <div class="col-md-6">
+            <select data-live-search="true" class="btn-danger form-control input-small"  name ="listName">
+                {% for favorite in favoriteList %}
+                  <option value="{{favorite}}">{{favorite}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-danger" name="view" value="view">save to favorite list</button>
+            </div>
+            <input type="hidden" name="path" value={{media}}><br>
+
+        </form>
+      {% endif %}
+    </div>
+      {% if saveToFavoriteSuccess %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+        <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{saveToFavoriteSuccess}}</li>
+            </ul>
+        </div>
+      {% endif %}
+      
+    {% endif %}
+    {% endif %}
+
+    {% if playlistDelete %}
+
+      <form class="form-imageDelete col-md-8 col-md-offset-4" action="/playlistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    {% endif %}
+
+    {% if favoritelistDelete %}
+
+     <form class="form-imageDelete col-md-8 col-md-offset-4" action="/favoritelistDelete/" method="post"> 
+          <input type="hidden" name="path" value={{media}}><br>
+          <input type="hidden" name="listName" value={{listName}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+
+    {% endif %}
+
+    {% if username and ifEdit%}
+
+    <div class="row col-md-2 col-md-offset-5"> 
+      <form class="form-audioDelete" action="/mediaDelete/" method="post"> 
+          <input type="hidden" name="audio" value={{media}}><br>
+          <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+      </form>
+    </div>
+    {% endif %}  
+    {% endif %}  
+    {% endifequal %}
+
+    {% if delete %}
+    <!-- div should be put internal, in comment, percent sign can not come up-->
+    <div class="form-group col-md-4 col-md-offset-4 alert alert-warning"> 
+        <ul>
+            <li>{{ delete }}</li>
+        </ul>
+    </div>
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <a href="/returnToMain/">
+        <button class="btn btn-warning start">
+              <i class="glyphicon glyphicon-step-backward"></i>
+          <span>Return To Main</span>
+        </button>
+      </a>
+    </div>
+
+    {% else %}
+
+    <!-- plus from-group here to spacing -->
+    <div class ="row col-md-6 col-md-offset-5 form-group">
+      <a href="/returnToMain/">
+        <button class="btn btn-warning start">
+              <i class="glyphicon glyphicon-step-backward"></i>
+          <span>Return To Main</span>
+        </button>
+      </a>
+    </div>
+    {% endif %}
+
+    {% if not delete and username and ifEdit%}
+
+    <form class="col-md-11" role="form" action="/metaUpdate/" method="post">
+      <div class="form-group">
+        <label class="col-md-3 control-label">Meta:</label>
+        <div class="col-md-8">
+          <input class="form-control" type="text" name="meta" value='{{meta}}'>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label">KeyWords:</label>
+        <div class="col-md-8">
+          <input class="form-control" type="text" name="keyword" value='{{keyword}}'>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+            <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-offset-4">
+          <input type="submit" class="btn btn-primary" value="Save Changes">
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel">
+        </div>
+      </div>
+    </form>
+    {% endif %}
+
+    {% if not ifEdit and not ifBlock and not delete%}
+      
+    <form class ="col-md-4 col-md-offset-4" method='post' action="/comment/">
+          
+      Comment:<br />
+      <textarea name='commentContent' style="height:100px;width:350px" id='comment'></textarea><br />
+      <br />
+      Scoring:<br />
+
+      <input type="radio" name="score" value="0" >0
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" name="score" value="1">1
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" name="score" value="2">2
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" name="score" value="3" checked>3
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" name="score" value="4">4
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" name="score" value="5">5
+      <br>
+      <br>
+      <div class="col-md-offset-4">
+          <input type="submit" class="btn btn-primary" value="Comment">
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-8">
+          <!-- just one kind of media -->
+            <input class="form-control" type="hidden" name="path" value={{media}}>
+        </div>
+      </div>
+    </form>
+    {% endif%}
+
+    {% if comments%}
+    <div class="col-md-4 col-md-offset-4">
+    <br />
+    All comments:<br /><br />
+    </div>
+    <!-- div should be put internal, in comment, percent sign can not come up-->
+    {% for comment in comments %}
+
+    <div class="col-md-6 col-md-offset-4 alert alert-warning"> 
+        <ul>
+            <li>{{comment|linebreaks}}</li>
+        </ul>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+  {% ifequal type 'image' %}
+  <div class="col-md-4">       
+    <form class="form-imageClick" action="/mediaClick/" method="post"> 
+      <ul class="row">
+        {% for image in medias %}
+          <li class="col-md-8">
+              <!-- value has a '/' or not -->
+              <input class="img-responsive" type="image" name="image" value="/{{image}}" src="/{{image}}" alt="Submit" /> 
+          </li>
+        {% endfor %}
+      </ul>
+    </form>      
+  </div>
+  {% endifequal %}
+
+  {% ifequal type 'video' %}
+  <div class="col-md-4">
+      <!-- for must be put after col-md-4 -->
+    {% for video in medias %}
+    <div class ="container">
+      <div class="row ">
+        <div class="">
+          <video controls class="col-md-4">
+            <source src="/{{video}}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+          <form class="form-signin" action="/mediaClick/" method="post"> 
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name= "video" value= "/{{video}}">Play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endifequal %}
+
+  {% ifequal type 'audio' %}
+
+  <div class="col-md-4">
+    <!-- for must be put after col-md-4 -->
+    {% for audio in medias %}
+    <div class ="container">
+      <div class="row ">
+        <div class="">
+          <audio controls class="col-md-4">
+            <source src="/{{audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+          <form class="form-signin" action="/mediaClick/" method="post"> 
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name= "audio" value= "/{{audio}}">Play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endifequal %}
+<!-- { and % must be put together -->
+    
+{% endblock %}

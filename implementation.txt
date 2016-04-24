@@ -1,0 +1,30 @@
+transfer images,videos and audios by session, in 3 places, the values will be changed,
+1. search
+2. all medias browser
+3. personal medias browser.
+4. search has nothing to do with username.
+
+Var ifEdit decide edit or just browser.  
+
+Not only image clicking can jump to singleMediaBrowser
+But also metaUpdate can do that.
+
+User can not comment and score his media, he can edit his own when searching result including his.
+
+By deciding if owner and browser is the same person, we use different showing and dealing page.
+
+Care, when a image is delete, the playlist also be delete.
+
+the system can block vistor when searching nothing, then u r ready to block all visitors.
+
+The user can not come up in friend list and blocklist at the same time
+
+things to do: delete videos in playlist
+farivatelist(use button)
+channel
+(whether fix the bug of the first time to log in, there is no images... in session)
+
+
+use session to transfer favorite list name.
+leaving:
+fix bug of that favorite list is null~!!!

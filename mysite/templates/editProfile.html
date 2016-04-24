@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    <h1>Edit Profile</h1>
+    <hr>
+  <div class="row">
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form" action="/editUpdate/" method="post">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              {% if firstname %}
+                <input class="form-control" type="text" name="firstname" value={{firstname}}>
+              {% else %}
+                <input class="form-control" type="text" name="firstname" value="">
+              {% endif %}
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+             {% if lastname %}
+                <input class="form-control" type="text" name="lastname" value={{lastname}}>
+              {% else %}
+                <input class="form-control" type="text" name="lastname" value="">
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Company:</label>
+            <div class="col-lg-8">
+             {% if company %}
+                <input class="form-control" type="text" name="company" value={{company}}>
+              {% else %}
+                <input class="form-control" type="text" name="company" value="">
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Address:</label>
+            <div class="col-lg-8">
+             {% if address %}
+                <!-- must have ' '' ' in value -->
+                <input class="form-control" type="text" name="address" value='{{address}}'>
+              {% else %}
+                <input class="form-control" type="text" name="address" value="">
+              {% endif %}
+            </div>
+          </div>
+       
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" value="{{username}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Modify Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" name="password" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" name="confirm_password" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+        </form>
+        <!-- these two must be put outside of form -->
+        <div class ="row col-md-6 col-md-offset-3">
+            <a href="/returnToMain/">
+              <button class="btn btn-warning start">
+                    <i class="glyphicon glyphicon-step-backward"></i>
+                <span>Return To Main</span>
+              </button>
+            </a>
+          </div>
+          <br/> <br/>
+          {% if success %}
+          <!-- div should be put internal, in comment, percent sign can not come up-->
+          <div class="col-md-4 col-md-offset-4 alert alert-warning"> 
+              <ul>
+                  <li>{{ success }}</li>
+              </ul>
+          </div>
+          {% endif %}
+
+          {% if modifyPassword %}
+          <!-- div should be put internal, in comment, percent sign can not come up-->
+          <div class="col-md-4 col-md-offset-4 alert alert-warning"> 
+              <ul>
+                  <li>{{ modifyPassword }}</li>
+              </ul>
+          </div>
+          {% endif %}
+      </div>
+  </div>
+</div>
+<hr>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+1. Use python 2.7
+2. install django-1.3.1 by downloading source code.
+3. install mysql
+4. You did export PATH=$PATH:/usr/local/mysql/bin , then "alias mysql =/usr/..." is not needed.
+5. And finally, you install MySQL-Python
+6. export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
+
+7. command "django-admin.py startproject mysite" to create root directory and initialize configure files.
+8. set my database,static directory,install mysite.modelView and so on in setting.py in the root directory "mysite".
+9. command "python manage.py startapp modelView" to create a model-view directory.
+10. edit models.py to create model(table) and views.py to write our main code.
+11. command "python manage.py validate" to verify whether the model is right ot not.
+12. command "python manage.py sqlall modelView" to generate sql statements.
+12.5: command "python manage.py syncdb" to create table(s);
+13. all html files are put in mysite/template directory.
+14. css file(boostrap.css) and medias are put in mysite/static directory
+15.	command "python manage.py syncdb" to create table in mysql.
+16. command "python ./manage.py runserver 0:8000" to start server.
+17. serverIP/index to enter main page of the metube system.
+
+3. uncomment    url(r'^admin/', include(admin.site.urls)), and admin.autodiscover()
+ 	in urls.py
+4. set my database and static directory... in setting.py in root directory 
+	DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'wei6_dghp',                      # Or path to database file if using sqlite3.
+        'USER': 'wei6_wj47',                      # Not used with sqlite3.
+        'PASSWORD': 'wsx891016',                  # Not used with sqlite3.
+        'HOST': 'mysql1.cs.clemson.edu',          # Set to empty string for localhost. Not used with sqlite3.
+        #'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+5.  uncomment  'django.contrib.admin', in setting.py
+6. 	command "python manage.py startapp modelView" to create a model directory
+7.	install mysite.modelView in setting.py
+8.  edit models.py to create model(table).
+8.	command "python manage.py validate" to verify whether the model 
+9.	command "python manage.py sqlall modelView" to generate sql statements
+// must be done before runserver if we want to log in admin
+10.	command "python manage.py syncdb" to create table in mysql.
+11. !!!!!!!!! After all the previous steps, we can 127.0.0.1:8000/admin 
+12. delete supper user(from last django version)
+13. create supper account
+14. python ./manage.py runserver 0:8000
+15. http://130.127.48.191:8000/admin ip address may change
+
+must log out the admin 
+
+
+
+when using django 1.6:
+create subdir mysite to put setting.py and urls which are needed to modify a litte both.
+
+
+
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if messages %}
+        <div class="col-md-4 col-md-offset-4"> 
+         meassage box:<br /><br />
+        </div>
+        {% for message in messages %}
+        <div class="col-md-4 col-md-offset-4 alert alert-warning"> 
+            <ul>
+                <li>{{message|linebreaks}}</li>
+            </ul>
+        </div>
+        {% endfor %}
+        <form class="form-imageDelete col-md-8 col-md-offset-4" action="/markRead/" method="post"> 
+        <input type="hidden" name="image" value={{media}}><br>
+        <button type="submit" data-dz-remove class="col-md-offset-2 btn btn-danger delete">
+            <i class="glyphicon glyphicon-tree-conifer"></i>
+            <span>mark Read</span>
+        </button>
+    </form>
+
+    {% endif %}
+
+
+    
+
+{% endblock %}

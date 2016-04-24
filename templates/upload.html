@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {% if username %}
+  <form  action="/uploadProcess/" method="post" enctype="multipart/form-data">
+    <input type="file" id="theFileInput" name="theFileInput" multiple style="display:none;">
+
+    <div class="row col-md-4 col-md-offset-4">
+        <!-- The fileinput-button span is used to style the file input field as button -->
+        <span class="btn btn-success fileinput-button" id="selectFile">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Select files...(one or more)..</span>
+        </span>
+        <!-- show name of uploaded files -->
+        <div id="selectedFiles"></div>
+        <br/>
+
+        <div class="form-group">
+          <label class="control-label">Meta:</label>
+            <input class="form-control" type="text" name="meta" value="">
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">KeyWords:</label>
+            <input class="form-control" type="text" name="keyword" value="">
+        </div>
+
+        <button type="submit" id="submit" class="btn btn-primary start">
+            <i class="glyphicon glyphicon-upload"></i>
+            <span>Start upload</span>
+        </button>
+    </div>
+
+  </form>
+
+  <div class ="row col-md-4 col-md-offset-4">
+    <a href="/returnToUserMain/">
+      <button class="btn btn-warning start">
+            <i class="glyphicon glyphicon-step-backward"></i>
+        <span>Return To Main</span>
+      </button>
+    </a>
+    <br/><br/>
+    {% if uploadResult %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+      <div class="row col-md-8 col-md-offset2 alert alert-warning"> 
+        <ul>
+            <li>{{ uploadResult }}</li>
+        </ul>
+      </div>
+
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+   document.getElementById('selectFile').onclick = function() {
+      document.getElementById('theFileInput').click();
+  };
+
+  </script>
+  <script type="text/javascript">
+    var selDiv = "";
+      
+    document.addEventListener("DOMContentLoaded", init, false);
+    
+    function init() {
+      document.querySelector('#theFileInput').addEventListener('change', handleFileSelect, false);
+      selDiv = document.querySelector("#selectedFiles");
+    }
+      
+    function handleFileSelect(e) {
+      
+      if(!e.target.files) return;
+      
+      selDiv.innerHTML = "";
+      
+      var files = e.target.files;
+      for(var i=0; i<files.length; i++) {
+        var f = files[i];
+        
+        selDiv.innerHTML += f.name + "<br/>";
+
+      }
+    }
+  </script>
+  
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if subscribedList %}
+        <!-- div should be put internal, in comment, percent sign can not come up-->
+    <div class="col-md-11">
+      My subscribe List:
+    </div>
+
+    <div class="col-md-8">
+
+        <form class="navbar-form" action="/subscribeViewAndDelete/" method="post">
+
+            <div class="col-md-3">
+            <select data-live-search="true" class="btn-primary form-control input-small"  name ="subscribedUser">
+                {% for subscribedUser in subscribedList %}
+                  <option value="{{subscribedUser}}">{{subscribedUser}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-success" name="view" value="view">View</button>
+              <button type="submit" class="btn btn-danger" name="delete" value="delete">delete</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+{% endblock %}

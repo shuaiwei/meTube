@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ {% load static %}
+
+
+    {% load static %}
+   
+    {% if images %}
+    <div class="row col-md-11" style="text-align:center; border-bottom:1px dashed #ccc;  padding:0 0 20px 0; margin-bottom:40px;">
+          <h3 style="font-family:arial; font-weight:bold; font-size:30px;">
+              <a style="text-decoration:none; color:#666;" href="#"> My Images </span></a>
+          </h3>
+    </div>
+      <!-- care order -->
+    <form class="form-imageClick" action="/mediaClick/" method="post"> 
+      <ul class="row">
+        {% for image in images %}
+          <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+              <!-- value has a '/' or not -->
+              <input class="img-responsive" type="image" name="image" value="/{{image}}" src="/{{image}}"  alt="Submit" /> 
+          </li>
+        {% endfor %}
+      </ul>
+
+    </form>      
+  {% endif %}
+
+  
+  {% if videos %}
+  <div class="row col-md-11" style="text-align:center; border-bottom:1px dashed #ccc;  padding:0 0 20px 0; margin-bottom:40px;">
+          <h3 style="font-family:arial; font-weight:bold; font-size:30px;">
+              <a style="text-decoration:none; color:#666;" href="#"> My Videos </span></a>
+          </h3>
+  </div>
+  <!-- care order just show one-->
+
+ {% for video in videos %}
+  
+  <div class="col-md-4">
+
+    <div class ="container">
+      <div class="row ">
+        <div class="">
+          <video controls class="col-md-4">
+            <source src="/{{video}}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+          <form class="form-signin" action="/mediaClick/" method="post"> 
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name= "video" value= "/{{video}}">Play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+  {% endif %}
+
+  {% if audios %}
+    <!-- 11 not 12 -->
+  <div class="row col-md-11" style="text-align:center; border-bottom:1px dashed #ccc;  padding:0 0 20px 0; margin-bottom:40px;">
+          <h3 style="font-family:arial; font-weight:bold; font-size:30px;">
+              <a style="text-decoration:none; color:#666;" href="#"> My Audios </span></a>
+          </h3>
+  </div>
+  <!-- care order -->
+
+ {% for audio in audios %}
+  
+  <div class="col-md-4">
+
+    <div class ="container">
+      <div class="row ">
+        <div class="">
+          <audio controls class="col-md-4">
+            <source src="/{{audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+          <form class="form-signin" action="/mediaClick/" method="post"> 
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name= "audio" value= "/{{audio}}">Play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+  {% endif %}
+
+{% endblock %}
+
+
+
